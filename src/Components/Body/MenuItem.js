@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, CardImg, CardImgOverlay, CardBody, CardTitle } from 'reactstrap';
 
 const MenuItem = props => {
-    console.log(props);
+    // console.log(props);
     return (
         <div>
             <Card style={{ margin: '5px' }}>
@@ -12,7 +12,10 @@ const MenuItem = props => {
                         src={props.dish.image}
                         style={{ opacity: '0.7' }} />
                     <CardImgOverlay>
-                        <CardTitle>{props.dish.name}</CardTitle>
+                        <CardTitle
+                            onClick={props.onDishSelect}
+                            style={{ cursor: 'pointer' }}
+                        >{props.dish.name}</CardTitle>
                     </CardImgOverlay>
                 </CardBody>
             </Card>
