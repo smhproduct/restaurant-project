@@ -13,11 +13,26 @@
 
 }
 
+.footer {
+    background-color: rgba(255, 187, 0, 0.555);
+    margin: 0px auto;
+    padding-top: 10px;
+
+    bottom: 0;
+    width: 100%;
+}
+
+.row-content {
+    margin: 0px auto;
+    padding: 50px 0px 50px 0px;
+}
+
 @media only screen and (max-width: 600px) {
 
     .nav-item {
         border-top: 1px solid white;
         padding-top: 5px;
+        min-height: 40px;
     }
 
 }

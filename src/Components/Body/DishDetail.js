@@ -17,7 +17,7 @@ const DishDetail = props => {
                     </CardText>
                     <hr />
                     <h4 style={{ marginBottom: '20px' }}>Comments:</h4>
-                    <LoadComments comments={props.dish.comments} />
+                    <LoadComments comments={props.comments} />
                 </CardBody>
             </Card>
 
