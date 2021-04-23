@@ -12,6 +12,20 @@ const mapStateToProps = state => {//importing stuffs from redux store
     }
 }
 
+const mapDispatchToProps = dispatch => {//Eta diye joto dispatching er function ase amra shob ekjaygay korte parbo
+    return {
+        addComment: (dishId, rating, author, comment) => dispatch({
+            type: 'ADD_COMMENT',
+            payload: {
+                dishId: dishId,
+                author: author,
+                rating: rating,
+                comment: comment
+            }
+        })
+    }
+}
+
 class Menu extends Component {
     state = {
         selectedDish: null,
@@ -51,14 +65,15 @@ class Menu extends Component {
         let dishdetail = null;
         if (this.state.selectedDish != null) {
             const comments = this.props.comments.filter(comment => comment.dishId === this.state.selectedDish.id)//Arrow function benefits: return korar thakle kichu return likha lagena, emne boshay dilei hoi
-            dishdetail = <DishDetail dish={this.state.selectedDish} comments={comments} />
+            dishdetail = <DishDetail dish={this.state.selectedDish} comments={comments} addComment={this.props.addComment} />
         }
         return (
             <div className='container'>
                 <div className='row'>
                     <CardColumns>{menu}</CardColumns>
-                    <Modal isOpen={this.state.modalOpen} onClick={this.toggleModal}>
+                    <Modal isOpen={this.state.modalOpen} >
                         <ModalBody>
+                            <Button color='secondary' onClick={this.toggleModal} close /><br />
                             {dishdetail}
                         </ModalBody>
                         <ModalFooter>
@@ -72,4 +87,4 @@ class Menu extends Component {
     }
 }
 
-export default connect(mapStateToProps)(Menu);
+export default connect(mapStateToProps, mapDispatchToProps)(Menu);
