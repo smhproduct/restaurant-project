@@ -1,4 +1,6 @@
 import * as actionTypes from './actionTypes';
+import DISHES from '../data/dishes';
+
 export const addComment = (dishId, rating, author, comment) => ({
     type: actionTypes.ADD_COMMENT,
     payload: {
@@ -8,3 +10,26 @@ export const addComment = (dishId, rating, author, comment) => ({
         comment: comment
     }
 })
+
+export const loadDishes = dishes => ({
+    type: actionTypes.LOAD_DISHES,
+    payload: dishes
+})
+
+export const dishesLoading = () => ({
+    type: actionTypes.DISHES_LOADING
+})
+
+export const fetchDishes = () => {//loaddishes ar dishes loading duita alada dispatch function, oderke consecutively perform koranor jonno ami ei dispatch ta call korsi
+    return dispatch => {
+        dispatch(dishesLoading());
+
+
+        setTimeout(() => { dispatch(loadDishes(DISHES)) },
+            2000);
+
+    }
+}
+//ei uporer fetchdishes dispatch function e kaahini ase. Dispatch function by default ALWAYS object return kore
+//But ami ekhane dispatch er bhitor DUITA aro dispatch pass korsi, jeta kora possible na
+//So ei rule bending e help korse redux thunk, jeta amra store.js e install kore nisi

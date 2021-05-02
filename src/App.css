@@ -15,11 +15,11 @@
 
 .footer {
     background-color: rgba(255, 187, 0, 0.555);
-    margin: 0px auto;
+    /*margin: 0px 0px;*/
     padding-top: 10px;
-
-    bottom: 0;
+    position: fixed;
     width: 100%;
+    bottom: 0 !important;
 }
 
 .row-content {
