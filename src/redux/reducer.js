@@ -1,6 +1,8 @@
 import COMMENTS from '../data/comments'
 import { combineReducers } from 'redux';
 import * as actionTypes from './actionTypes';
+import { InitialContactForm } from './forms';
+import { createForms } from 'react-redux-form';
 
 const dishReducer = (dishState = { isLoading: false, dishes: [] }, action) => {
     //Ekhane dishstate ta ekta object jekhane isLoading ar dishState duitai ase,
@@ -39,5 +41,8 @@ const commentReducer = (commentState = COMMENTS, action) => {
 
 export const Reducer = combineReducers({
     dishes: dishReducer,
-    comments: commentReducer
+    comments: commentReducer,
+    ...createForms({//ekhane contact form ke redux e rakhar jonno agey spread kore object er ekta property hishebe rakhte hoi, shamne jodi aro lage, comma diye diye aro property create kore store kora jabe
+        feedback: InitialContactForm
+    })
 })
