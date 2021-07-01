@@ -8,3 +8,4 @@ const myStore = createStore(Reducer, applyMiddleware(logger, thunk));
 export default myStore;
 
 //thunk use korte middleware must lage, tai middleware install kore tar 2nd param hishebe thunk ke use korsi
+//logger hocche ekta middleware

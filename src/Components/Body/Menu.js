@@ -3,7 +3,7 @@ import MenuItem from './MenuItem';
 import DishDetail from './DishDetail';
 import { CardColumns, Modal, ModalBody, ModalFooter, Button } from 'reactstrap';
 import { connect } from 'react-redux';
-import { addComment, fetchDishes } from '../../redux/actionCreators';
+import { addComment, fetchComments, fetchDishes } from '../../redux/actionCreators';
 import Loading from './Loading';
 
 const mapStateToProps = state => {//importing stuffs from redux store
@@ -17,8 +17,9 @@ const mapStateToProps = state => {//importing stuffs from redux store
 const mapDispatchToProps = dispatch => {//Eta diye joto dispatching er function ase amra shob ekjaygay korte parbo
     return {
         addComment: (dishId, rating, author, comment) => dispatch(addComment(dishId, rating, author, comment)),
-        fetchDishes: () => dispatch(fetchDishes())//fetchdishes jehetu duita dispatch func niye kaaj korse, param lagenai, so ekhaneo dinai
+        fetchDishes: () => dispatch(fetchDishes()),//fetchdishes jehetu duita dispatch func niye kaaj korse, param lagenai, so ekhaneo dinai
         //ektu niche jeye compdidmount ar <Menuitem/> compo check koro must
+        fetchComments: () => dispatch(fetchComments())
     }
 }
 
@@ -48,6 +49,7 @@ class Menu extends Component {
 
     componentDidMount() {//er agey addcomment ke jemne amra CommentForm.js e handlesubmit e use korsi, ekhane submit bolte kichu nai, so fetch dishes ke deploy korte hole mount er por por korte hobe, ejonnoi eta use korsi
         this.props.fetchDishes();
+        this.props.fetchComments();
     }
 
     render() {
@@ -71,8 +73,8 @@ class Menu extends Component {
 
             let dishdetail = null;
             if (this.state.selectedDish != null) {
-                const comments = this.props.comments.filter(comment => comment.dishId === this.state.selectedDish.id)//Arrow function benefits: return korar thakle kichu return likha lagena, emne boshay dilei hoi
-                dishdetail = <DishDetail dish={this.state.selectedDish} comments={comments} addComment={this.props.addComment} />
+                const comments = this.props.comments.comments.filter(comment => comment.dishId === this.state.selectedDish.id)//Arrow function benefits: return korar thakle kichu return likha lagena, emne boshay dilei hoi
+                dishdetail = <DishDetail dish={this.state.selectedDish} comments={comments} addComment={this.props.addComment} commentsIsLoading={this.props.comments.isLoading} />
             }
             return (
                 <div className='container'>

@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Control, Errors, Form, actions } from 'react-redux-form';
 import { Button, FormGroup, Label, Col } from 'reactstrap';
+/* import { resetFeedbackForm } from '../../redux/actionCreators'; */
+import * as actionTypes from '../../redux/actionTypes';
+
 
 const mapDispatchToProps = dispatch => {
     return {
@@ -11,6 +14,12 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
+/* const mapDispatchToProps = dispatch => {
+    return {
+        resetFeedbackForm: () => dispatch(resetFeedbackForm)
+    }
+} */
+
 const required = val => val && val.length;
 const isNumber = val => !isNaN(Number(val));
 const validEmail = val => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(val);
@@ -19,6 +28,7 @@ class Contact extends Component {
     handleSubmit = values => {
         console.log(values);
         this.props.resetFeedbackForm();
+
     }
     render() {
 
@@ -31,7 +41,7 @@ class Contact extends Component {
 
                     </div>
                     <div className='col-12 col-md-7'>
-                        <Form model='feedback' onSubmit={values => this.handleSubmit(values)}>{/* WAIT BONDHU, ami kintu ekhane Form agey likhinai, agey LocalForm lekha lagsilo redux form creation er shomoy. But jehetu ami ekhon form ta REDUX STORE e dhukate chachhi, amar abar Form lekha lagse, jeta imported from redux-react-form, not reactstrap*/}
+                        <Form model={actionTypes.FEEDBACK} onSubmit={values => this.handleSubmit(values)}>{/* WAIT BONDHU, ami kintu ekhane Form agey likhinai, agey LocalForm lekha lagsilo redux form creation er shomoy. But jehetu ami ekhon form ta REDUX STORE e dhukate chachhi, amar abar Form lekha lagse, jeta imported from redux-react-form, not reactstrap*/}
                             <FormGroup row>{/* ebhabe row ta lekha hoise mane row hochhe Formgroup er ekta prop, and eta bool value accept korbe */}
                                 <Label htmlFor='firstname' md={2}>First Name:</Label>
                                 <Col md={10}>
