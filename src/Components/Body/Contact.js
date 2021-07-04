@@ -25,11 +25,16 @@ const isNumber = val => !isNaN(Number(val));
 const validEmail = val => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(val);
 
 class Contact extends Component {
+    state = {
+        contactdisable: true
+    }
     handleSubmit = values => {
         console.log(values);
+        console.log(this.state.contact);
         this.props.resetFeedbackForm();
 
     }
+
     render() {
 
         document.title = "Contact";
@@ -128,6 +133,7 @@ class Contact extends Component {
                                     <FormGroup check>
                                         <Label check>
                                             <Control.checkbox
+                                                onClick={() => { this.setState({ contactdisable: !this.state.contactdisable }) }}
                                                 className='form-check-input'
                                                 model='.agree'
                                                 name='agree' /><strong>May we contact you?</strong>
@@ -138,7 +144,8 @@ class Contact extends Component {
                                     <Control.select
                                         className='form-control'
                                         model='.contactType'
-                                        name='contactType' /* disabled={!this.state.agree} */>
+                                        name='contactType'
+                                        disabled={{ valid: this.state.contactdisable }} /* disabled={!this.state.agree} */>
                                         <option>Tel.</option>
                                         <option>Email</option>
                                     </Control.select>

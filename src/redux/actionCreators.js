@@ -2,15 +2,29 @@ import * as actionTypes from './actionTypes';
 import axios from 'axios';
 import { baseUrl } from './baseUrl';
 
-export const addComment = (dishId, rating, author, comment) => ({
+export const commentConcat = comment => ({//curly brace er baire () bracket thaka mane amra ekta function er bhitor object niye kaaj kortesi
     type: actionTypes.ADD_COMMENT,
-    payload: {
-        dishId: dishId,
-        author: author,
-        rating: rating,
-        comment: comment
-    }
+    payload: comment
 })
+
+export const addComment = (dishId, rating, author, comment) => {
+    return dispatch => {
+        const newComment =
+        {
+            dishId: dishId,
+            author: author,
+            rating: rating,
+            comment: comment
+        }
+        newComment.date = new Date().toISOString();
+
+        axios.post(baseUrl + 'comments', newComment)
+            .then(response => response.data)
+            .then(comment => dispatch(commentConcat(comment)))
+    }
+}
+
+
 
 export const loadDishes = dishes => ({
     type: actionTypes.LOAD_DISHES,
