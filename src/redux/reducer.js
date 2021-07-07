@@ -3,7 +3,7 @@ import * as actionTypes from './actionTypes';
 import { InitialContactForm } from './forms';
 import { actions, createForms } from 'react-redux-form';
 
-const dishReducer = (dishState = { isLoading: false, dishes: [] }, action) => {
+const dishReducer = (dishState = { isLoading: false, dishes: [], errMess: null }, action) => {
     //Ekhane dishstate ta ekta object jekhane isLoading ar dishState duitai ase,
     //to ekhan theke dishState ke return korbo tokhon Menu.js e <Menuitem/> er agey mapping er shomoy duitai pass hobe object hishebe
     //so just dishstate er dishes ke access korar jonnoi ami okhane dishes.dishes likhsi 
@@ -12,13 +12,22 @@ const dishReducer = (dishState = { isLoading: false, dishes: [] }, action) => {
             return {
                 ...dishState,
                 isLoading: true,
+                errMess: null,
                 dishes: []
             }
         case actionTypes.LOAD_DISHES:
             return {
                 ...dishState,
                 isLoading: false,
+                errMess: null,
                 dishes: action.payload
+            }
+        case actionTypes.DISHES_FAILED:
+            return {
+                ...dishState,
+                isLoading: false,
+                errMess: action.payload,
+                dishes: []
             }
         default:
             return dishState;

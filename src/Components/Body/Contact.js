@@ -1,9 +1,12 @@
+import axios from 'axios';
+import { Alert } from 'reactstrap';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Control, Errors, Form, actions } from 'react-redux-form';
 import { Button, FormGroup, Label, Col } from 'reactstrap';
 /* import { resetFeedbackForm } from '../../redux/actionCreators'; */
 import * as actionTypes from '../../redux/actionTypes';
+import { baseUrl } from '../../redux/baseUrl';
 
 
 const mapDispatchToProps = dispatch => {
@@ -26,11 +29,40 @@ const validEmail = val => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(val);
 
 class Contact extends Component {
     state = {
-        contactdisable: true
+        contactdisable: true,
+        alertShow: false,
+        alertText: null,
+        alertType: null
     }
     handleSubmit = values => {
-        console.log(values);
-        console.log(this.state.contact);
+        axios.post(baseUrl + 'feedback', values)
+            .then(response => response.status)
+            .then(status => {
+                if (status === 201) {
+                    this.setState({
+                        alertShow: true,
+                        alertText: "Submitted Successfully!",
+                        alertType: 'success'
+                    });
+                    setTimeout(() => {
+                        this.setState({
+                            alertShow: false,
+                        })
+                    }, 2000)
+                }
+            })
+            .catch(error => {
+                this.setState({
+                    alertShow: true,
+                    alertText: error.message,
+                    alertType: "danger"
+                });
+                setTimeout(() => {
+                    this.setState({
+                        alertShow: false,
+                    })
+                }, 2000)
+            })
         this.props.resetFeedbackForm();
 
     }
@@ -41,12 +73,13 @@ class Contact extends Component {
         return (
             <div className='container'>
                 <div className='row row-content' style={{ paddingLeft: "20px", textAlign: 'left' }}>
+
                     <div className='col-12'>
                         <h3>Send us your feedback!</h3>
-
+                        <Alert isOpen={this.state.alertShow} color={this.state.alertType}>{this.state.alertText}</Alert>
                     </div>
                     <div className='col-12 col-md-7'>
-                        <Form model={actionTypes.FEEDBACK} onSubmit={values => this.handleSubmit(values)}>{/* WAIT BONDHU, ami kintu ekhane Form agey likhinai, agey LocalForm lekha lagsilo redux form creation er shomoy. But jehetu ami ekhon form ta REDUX STORE e dhukate chachhi, amar abar Form lekha lagse, jeta imported from redux-react-form, not reactstrap*/}
+                        <Form model="feedback" onSubmit={values => this.handleSubmit(values)}>{/* WAIT BONDHU, ami kintu ekhane Form agey likhinai, agey LocalForm lekha lagsilo redux form creation er shomoy. But jehetu ami ekhon form ta REDUX STORE e dhukate chachhi, amar abar Form lekha lagse, jeta imported from redux-react-form, not reactstrap*/}
                             <FormGroup row>{/* ebhabe row ta lekha hoise mane row hochhe Formgroup er ekta prop, and eta bool value accept korbe */}
                                 <Label htmlFor='firstname' md={2}>First Name:</Label>
                                 <Col md={10}>

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import MenuItem from './MenuItem';
 import DishDetail from './DishDetail';
-import { CardColumns, Modal, ModalBody, ModalFooter, Button } from 'reactstrap';
+import { CardColumns, Modal, ModalBody, ModalFooter, Button, Alert } from 'reactstrap';
 import { connect } from 'react-redux';
 import { addComment, fetchComments, fetchDishes } from '../../redux/actionCreators';
 import Loading from './Loading';
+
 
 const mapStateToProps = state => {//importing stuffs from redux store
 
@@ -26,8 +27,10 @@ const mapDispatchToProps = dispatch => {//Eta diye joto dispatching er function 
 class Menu extends Component {
     state = {
         selectedDish: null,
-        modalOpen: false
+        modalOpen: false,
+        alerterror: true
     }
+
 
     onDishSelect = dish => {
         console.log(dish);
@@ -60,6 +63,16 @@ class Menu extends Component {
             return (
                 <Loading />
             );
+        }
+        else if (this.props.dishes.errMess != null) {
+            setTimeout(() => {
+                this.setState({
+                    alerterror: false
+                })
+            }, 5000)
+            return (
+                <Alert color='danger' isOpen={this.state.alerterror} >{this.props.dishes.errMess}</Alert>
+            )
         }
         else {
             const menu = this.props.dishes.dishes.map(item => {//duibar keno dishes likhsi, janar jonno reducer.js e jao

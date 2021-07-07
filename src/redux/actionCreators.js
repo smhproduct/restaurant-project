@@ -35,6 +35,11 @@ export const dishesLoading = () => ({
     type: actionTypes.DISHES_LOADING
 })
 
+export const dishesFailed = errMess => ({
+    type: actionTypes.DISHES_FAILED,
+    payload: errMess
+})
+
 export const fetchDishes = () => {//loaddishes ar dishes loading duita alada dispatch function, oderke consecutively perform koranor jonno ami ei dispatch ta call korsi
     return dispatch => {
         dispatch(dishesLoading());
@@ -42,6 +47,7 @@ export const fetchDishes = () => {//loaddishes ar dishes loading duita alada dis
         axios.get(baseUrl + "dishes")
             .then(response => response.data)
             .then(dishes => dispatch(loadDishes(dishes)))
+            .catch(error => dispatch(dishesFailed(error.message)))
 
     }
 }
